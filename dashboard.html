@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Weather Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Rubik:wght@400;700&display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="dashboard.css" />
+</head>
+
+<body>
+    <header>
+        <div class="logo" aria-label="Clime weather logo"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <circle cx="12" cy="12" r="5" stroke="none" fill="#fdbe32" />
+                <path d="M12 1v3M12 20v3M4.22 4.22l2 2M15.78 15.78l2 2M1 12h3M20 12h3M4.22 19.78l2-2M15.78 8.22l2-2"
+                    stroke="#fdbe32" stroke-width="2" stroke-linecap="round" />
+            </svg>WeatherNow</div>
+        <p class="desc">Get realtime temperature, humidity and wind updates. All brought to life with beautifully
+            interactive weather maps.</p>
+        <!-- <a href="#" class="btn-dashboard" tabindex="0" role="button" aria-label="View Clime Dashboard">View Dashboard ↓</a> -->
+    </header>
+
+    <section class="container" aria-label="Weather dashboard container">
+        <div>
+            <div class="top-bar" role="search">
+                <div class="time-display" aria-live="polite" aria-label="Current local time">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="12" y1="6" x2="12" y2="12" />
+                        <line x1="12" y1="12" x2="16" y2="14" />
+                    </svg>
+                    <time id="current-time" datetime=""></time>
+                </div>
+
+                <form class="search-form" id="city-form" aria-label="Search weather by city">
+                    <input type="text" id="city-input" placeholder="Enter a city.." aria-required="true"
+                        aria-describedby="city-desc" autocomplete="off" />
+                    <button type="submit" aria-label="Submit city search">submit</button>
+                </form>
+
+                <div class="location-indicator" aria-live="polite" aria-atomic="true" id="location-display">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                        <path d="M12 22s8-4.5 8-10a8 8 0 1 0-16 0c0 5.5 8 10 8 10z" />
+                    </svg>
+                    <span>Kolkata</span>
+                </div>
+            </div>
+
+            <div class="metrics" aria-label="Weather metrics">
+                <article class="metric-card" tabindex="0" aria-describedby="temperature-desc">
+                    <div class="icon-bg" aria-hidden="true">
+                        <svg viewBox="0 0 24 24">
+                            <circle cx="12" cy="14" r="3" />
+                            <line x1="12" y1="2" x2="12" y2="8" />
+                            <line x1="12" y1="17" x2="12" y2="22" />
+                            <line x1="8" y1="21" x2="16" y2="21" />
+                        </svg>
+                    </div>
+                    <div id="temperature-desc" class="metric-label">Temperature</div>
+                    <div class="metric-value">28.91 <small>°C</small></div>
+                </article>
+
+                <article class="metric-card" tabindex="0" aria-describedby="windspeed-desc">
+                    <div class="icon-bg" aria-hidden="true">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M4 12h16M4 6h12M4 18h8" />
+                        </svg>
+                    </div>
+                    <div id="windspeed-desc" class="metric-label">Wind Speed</div>
+                    <div class="metric-value">3.6 <small>m/s</small></div>
+                </article>
+
+                <article class="metric-card" tabindex="0" aria-describedby="humidity-desc">
+                    <div class="icon-bg" aria-hidden="true">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 22s8-4.5 8-10a8 8 0 1 0-16 0c0 5.5 8 10 8 10z" />
+                        </svg>
+                    </div>
+                    <div id="humidity-desc" class="metric-label">Humidity</div>
+                    <div class="metric-value">76<small>%</small></div>
+                    <div class="metric-info" title="Relative Humidity">% is the percentage of water vapor in air</div>
+                </article>
+            </div>
+
+            <section class="chart-card" aria-label="Temperature trends chart">
+                <h3>
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                        <path d="M3 17l6-6 4 4 8-8" />
+                    </svg> Temperature Trends
+                </h3>
+                <canvas id="tempChart" aria-describedby="chart-desc" role="img" width="600" height="250"></canvas>
+                <p id="chart-desc" class="visually-hidden">Line chart showing temperature trend over 5 days from August
+                    6 to August 10 </p>
+            </section>
+        </div>
+
+        <aside>
+            <div class="city-selection" role="list" aria-label="City selection list">
+                <button class="city-card selected" role="listitem" aria-pressed="true" data-city="Kolkata"
+                    aria-label="Select city Kolkata">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                        <rect x="6" y="6" width="12" height="12" rx="3" />
+                    </svg>
+                    <span>Kolkata</span>
+                </button>
+                <button class="city-card" role="listitem" aria-pressed="false" data-city="Gaya"
+                    aria-label="Select city Gaya">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                        <rect x="6" y="6" width="12" height="12" rx="3" />
+                    </svg>
+                    <span>Gaya</span>
+                </button>
+                <button class="city-card" role="listitem" aria-pressed="false" data-city="Patna"
+                    aria-label="Select city Patna">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                        <rect x="6" y="6" width="12" height="12" rx="3" />
+                    </svg>
+                    <span>Patna</span>
+                </button>
+                <button class="city-card" role="listitem" aria-pressed="false" data-city="Bangalore"
+                    aria-label="Select city Bangalore">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                        <rect x="6" y="6" width="12" height="12" rx="3" />
+                    </svg>
+                    <span>Bangalore</span>
+                </button>
+            </div>
+            <div class="map-container" aria-label="Map of selected city">
+                <iframe id="map-frame" tabindex="-1"
+                    src="https://maps.google.com/maps?q=Kolkata&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                    title="Map showing location of Kolkata" loading="lazy"
+                    onerror="this.style.display='none';"></iframe>
+            </div>
+        </aside>
+    </section>
+
+    <footer class="footer-note" aria-label="Footer note">
+        &copy <span class="handwriting">2025 Churamani Kumar. All rights reserved.</span>
+    </footer>
+
+
+    <script src="dashboard.js"></script>
+
+</body>
+
+</html>
